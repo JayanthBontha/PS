@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+    <button onclick="print()">Show users</button>
+    <hr>
+    <input type="text" placeholder="Enter first name" id="fir" ><br>
+    <input type="text" placeholder="Enter last name" id="las"><br>
+    <input type="email" placeholder="Enter email" id="em"><br>
+    <button onclick="add()">Add User</button>
+
+    <script>
+        function print(){
+            fetch("https://reqres.in/api/users").then(res => res.json())
+            .then(res => res.data.forEach(ele => {
+                console.log(ele.first_name+' '+ele.last_name+"'s email is"+ele.email)
+            }));
+        }
+
+        function add(){
+            let f = document.getElementById("fir").value;
+            let l = document.getElementById("las").value;
+            let e = document.getElementById("em").value;
+            if(f!='' || l!='' || e!=''){
+                fetch("https://reqres.in/api/users",{
+                    method: "POST",
+                    headers: {
+                        "Content-type" : "application/json"
+                    },
+                    body : JSON.stringify({
+                        first_name : f,
+                        last_name : l,
+                        email : e
+                    }) 
+                }).then(res =>res.json())
+                .then(data => console.log(data))
+            }
+            else{
+                alert("Enter all details")
+            }
+        }
+    </script>
+</body>
+</html>
